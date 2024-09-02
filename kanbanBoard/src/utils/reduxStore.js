@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 // Slices
+
 import toDoReducer from "./toDoSlice.js"
 import inProgressReducer from "./inProgress.js";
 import peerReviewReducer from "./peerReview.js";

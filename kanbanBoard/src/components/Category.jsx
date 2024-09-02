@@ -1,6 +1,9 @@
+// Column or category component of kanban board
 import Task from "./Task.jsx";
-import { useSelector,useDispatch } from "react-redux";
 import { draggedTask } from "./Task.jsx";
+
+// Redux
+import { useSelector,useDispatch } from "react-redux";
 import { increment } from "../utils/toDoSlice.js";
 import { addItem as  addPeerReviewTask} from "../utils/peerReview.js";
 import { addItem as  addInProgressTask} from "../utils/inProgress.js";
@@ -8,11 +11,13 @@ import { addItem as addDoneTask} from "../utils/done.js";
 import { addItem as addToDoTask } from "../utils/toDoSlice.js";
 
 function Category(props){
-    let textToFilter=useSelector((store)=>store.searchInput.searchInput);
+    let textToFilter=useSelector((store)=>store.searchInput.searchInput);// Taking search value into a variable
     let title;
     let tasks=[];
     let length=useSelector((store)=>store.toDoTasks.counter);
     let dispatch=useDispatch();
+
+    // Taking tasks data from redux store to variable
     if(props.category=="toDo"){
         title="To-Do";
         tasks=useSelector((store)=>store.toDoTasks.items);
@@ -27,21 +32,30 @@ function Category(props){
         tasks=useSelector((store)=>store.doneTasks.items);
     }
     
+    // Filtering tasks based on search input
     let filteredTasks=[];
     for(let i=0;i<tasks.length;i++){
         if(tasks[i] && tasks[i][1].toLowerCase().includes(textToFilter.toLowerCase())){
             filteredTasks[filteredTasks.length]=tasks[i];
         };
     }
+
+    // Preventing firing of element
     function handleDragOver(e){
         e.preventDefault();
     }
+
+    //Adding the task into dropped element
     function handleDrop(e){
         let dropTarget=e.target;
         e.preventDefault();
+
+        // Taking out the category in which the task is dropped
         while(!dropTarget.parentNode.classList.contains("category")){
             dropTarget=dropTarget.parentNode;
         }
+
+        // Adding task in to the category or column and incrementing the counter
         if(dropTarget.parentNode.id=="toDo"){
             let task=[length+1,draggedTask.current.children[0].children[0].innerHTML,draggedTask.current.children[1].children[0].innerHTML];
             dispatch(addToDoTask(task));

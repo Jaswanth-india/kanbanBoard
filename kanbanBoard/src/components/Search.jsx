@@ -7,6 +7,7 @@ function Search(){
     function handleSearch(e){
         searchDispatch(makeInput(e.target.value)); // Making search Input available to other components
     }
+    
     return(
         <div id="searchContainer">
             <input type="text" placeholder="Eg: Meeting with Sam" onChange={(e)=>handleSearch(e)}/>

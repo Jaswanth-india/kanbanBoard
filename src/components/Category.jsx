@@ -51,33 +51,33 @@ function Category(props){
         e.preventDefault();
 
         // Taking out the category in which the task is dropped
-        while(!dropTarget.parentNode.classList.contains("category")){
+        while(!dropTarget.classList.contains("category")){
             dropTarget=dropTarget.parentNode;
         }
 
         // Adding task in to the category or column and incrementing the counter
-        if(dropTarget.parentNode.id=="toDo"){
+        if(dropTarget.id=="toDo"){
             let task=[length+1,draggedTask.current.children[0].children[0].innerHTML,draggedTask.current.children[1].children[0].innerHTML];
             dispatch(addToDoTask(task));
             dispatch(increment());
-        }else if(dropTarget.parentNode.id=="inProgress"){
+        }else if(dropTarget.id=="inProgress"){
             let task=[length+1,draggedTask.current.children[0].children[0].innerHTML,draggedTask.current.children[1].children[0].innerHTML];
             dispatch(addInProgressTask(task));
             dispatch(increment());
-        }else if(dropTarget.parentNode.id=="peerReview"){
+        }else if(dropTarget.id=="peerReview"){
             let task=[length+1,draggedTask.current.children[0].children[0].innerHTML,draggedTask.current.children[1].children[0].innerHTML];
             dispatch(addPeerReviewTask(task));
             dispatch(increment());
-        }else if(dropTarget.parentNode.id=="done"){
+        }else if(dropTarget.id=="done"){
             let task=[length+1,draggedTask.current.children[0].children[0].innerHTML,draggedTask.current.children[1].children[0].innerHTML];
             dispatch(addDoneTask(task));
             dispatch(increment());
         }
     }
     return(
-        <div id={props.category} className="category">
+        <div id={props.category} className="category" onDragOver={(e)=>{handleDragOver(e)}} onDrop={(e)=>handleDrop(e)}>
             <h2>{title}</h2>
-            <div onDragOver={(e)=>{handleDragOver(e)}} onDrop={(e)=>handleDrop(e)}>
+            <div>
                 {filteredTasks.map((task)=>task && <Task key={task[0]} task={task} category={props.category}/>)}
             </div>
         </div>
